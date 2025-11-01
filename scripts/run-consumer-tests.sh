@@ -7,28 +7,37 @@ echo "Starting Kafka Consumer Performance Tests..."
 
 # Check if Java is installed
 if ! command -v java &> /dev/null; then
-    echo "Java is not installed. Please install Java 8 or higher."
+    echo "Error: Java is not installed. Please install Java 8 or higher."
     exit 1
 fi
 
-# Check if Maven is installed
-if ! command -v mvn &> /dev/null; then
-    echo "Maven is not installed. Please install Maven to build the project."
+# Check if JAR files exist
+if [ ! -d "lib" ] || [ -z "$(ls -A lib/*.jar 2>/dev/null)" ]; then
+    echo "Error: Required JAR files not found in lib/ directory."
+    echo "Please run: ./lib/download-dependencies.sh"
     exit 1
 fi
 
-# Build the project
-echo "Building the project..."
-mvn clean compile
+# Compile the project
+echo "Compiling the project..."
+./scripts/compile.sh
 
-# Check if build was successful
+# Check if compilation was successful
 if [ $? -ne 0 ]; then
-    echo "Build failed. Please check the errors above."
+    echo "Compilation failed. Please check the errors above."
     exit 1
 fi
+
+# Build classpath
+CLASSPATH="target/classes"
+for jar in lib/*.jar; do
+    if [ -f "$jar" ]; then
+        CLASSPATH="$CLASSPATH:$jar"
+    fi
+done
 
 # Run the consumer tests
 echo "Running consumer performance tests..."
-java -cp "target/classes:target/dependency/*" com.kafka.benchmark.ConsumerJ
+java -cp "$CLASSPATH" com.kafka.benchmark.ConsumerJ
 
 echo "Consumer performance tests completed."

@@ -34,10 +34,12 @@ A comprehensive Kafka performance testing and analysis framework that automates 
 
 ## Quick Start
 
-1. Configure your Kafka brokers and Elasticsearch endpoints in the properties files
-2. Set test parameters in `config.properties` and `consumer.properties`
-3. Compile and run the producer tests: `java Main`
-4. Run consumer tests: `java ConsumerJ`
+1. **Download dependencies:** `./lib/download-dependencies.sh`
+2. **Configure your environment:** Edit `config/config.properties` and `config/consumer.properties`
+3. **Run producer tests:** `./scripts/run-producer-tests.sh`
+4. **Run consumer tests:** `./scripts/run-consumer-tests.sh`
+
+See [QUICK-START.md](QUICK-START.md) for detailed instructions.
 
 ## Configuration
 
@@ -64,12 +66,21 @@ timeout=60000
 
 ## Dependencies
 
-Download the following JAR files to the `lib/` directory:
+All required JAR files are automatically downloaded:
+- ✅ **9 JAR files** (3.8MB total) 
+- ✅ **No Maven required**
+- ✅ **One command setup:** `./lib/download-dependencies.sh`
+
+**Included JARs:**
+- elasticsearch-rest-client-7.17.0.jar
+- gson-2.8.9.jar  
+- httpclient-4.5.13.jar
+- httpcore-4.4.15.jar
+- httpcore-nio-4.4.15.jar
+- httpasyncclient-4.1.5.jar
 - jna-4.5.2.jar
-- gson-2.8.x.jar
-- elasticsearch-rest-client-x.x.x.jar
-- httpclient-x.x.x.jar
-- httpcore-x.x.x.jar
+- commons-logging-1.2.jar
+- commons-codec-1.15.jar
 
 ## License
 
